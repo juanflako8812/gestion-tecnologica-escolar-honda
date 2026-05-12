@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Panel de control{% endblock %}
+{% block content %}
+<h1>Panel de control</h1>
+<section class="metrics">
+  <article class="metric"><span>{{ metrics.assets_total }}</span><small>Activos registrados</small></article>
+  <article class="metric"><span>{{ metrics.tickets_open }}</span><small>Tickets abiertos</small></article>
+  <article class="metric"><span>{{ metrics.tickets_closed }}</span><small>Tickets cerrados</small></article>
+  <article class="metric"><span>{{ metrics.average_resolution_hours }}</span><small>Horas promedio de cierre</small></article>
+</section>
+<section class="grid-two">
+  <article class="card">
+    <h2>Activos por estado</h2>
+    <table>
+      <thead><tr><th>Estado</th><th>Total</th></tr></thead>
+      <tbody>{% for row in metrics.assets_by_status %}<tr><td>{{ row.status }}</td><td>{{ row.total }}</td></tr>{% endfor %}</tbody>
+    </table>
+  </article>
+  <article class="card">
+    <h2>Tickets por prioridad</h2>
+    <table>
+      <thead><tr><th>Prioridad</th><th>Total</th></tr></thead>
+      <tbody>{% for row in metrics.tickets_by_priority %}<tr><td>{{ row.priority }}</td><td>{{ row.total }}</td></tr>{% endfor %}</tbody>
+    </table>
+  </article>
+</section>
+<section class="card">
+  <h2>Últimos tickets</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Título</th><th>Activo</th><th>Solicitante</th><th>Estado</th><th>Prioridad</th></tr></thead>
+    <tbody>
+    {% for ticket in latest_tickets %}
+      <tr><td><a href="/tickets/{{ ticket.id }}">#{{ ticket.id }}</a></td><td>{{ ticket.title }}</td><td>{{ ticket.asset_code or 'Sin activo' }}</td><td>{{ ticket.requester_name }}</td><td>{{ ticket.status }}</td><td>{{ ticket.priority }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Ingreso{% endblock %}
+{% block content %}
+<section class="card login-card">
+  <h1>Ingreso al prototipo</h1>
+  <p>Use las credenciales de demostración definidas para el entorno TRL5.</p>
+  {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+  <form method="post" action="/login" class="form">
+    <label>Usuario
+      <input name="username" required autocomplete="username">
+    </label>
+    <label>Contraseña
+      <input name="password" type="password" required autocomplete="current-password">
+    </label>
+    <button type="submit">Ingresar</button>
+  </form>
+  <div class="hint">
+    <p><strong>Demo:</strong> admin/admin123 · soporte/soporte123 · docente/docente123</p>
+  </div>
+</section>
+{% endblock %}

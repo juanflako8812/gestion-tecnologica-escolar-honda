@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Ticket{% endblock %}
+{% block content %}
+<section class="header-row">
+  <h1>Ticket #{{ ticket.id }} · {{ ticket.title }}</h1>
+  {% if can_manage %}<a class="button-secondary" href="/mantenimientos/nuevo?ticket_id={{ ticket.id }}">Registrar mantenimiento</a>{% endif %}
+</section>
+<section class="card detail-grid">
+  <div><strong>Estado:</strong> {{ ticket.status }}</div>
+  <div><strong>Prioridad:</strong> {{ ticket.priority }}</div>
+  <div><strong>Activo:</strong> {{ ticket.asset_code or 'Sin activo' }} {{ ticket.asset_name or '' }}</div>
+  <div><strong>Solicitante:</strong> {{ ticket.requester_name }}</div>
+  <div><strong>Asignado:</strong> {{ ticket.assigned_name or 'Sin asignar' }}</div>
+  <div><strong>Creado:</strong> {{ ticket.created_at }}</div>
+  <div class="full"><strong>Descripción:</strong> {{ ticket.description }}</div>
+  <div class="full"><strong>Resolución:</strong> {{ ticket.resolution or 'Sin resolución registrada' }}</div>
+</section>
+{% if can_manage %}
+<section class="card">
+  <h2>Actualizar ticket</h2>
+  <form class="form-grid" method="post" action="/tickets/{{ ticket.id }}/actualizar">
+    <label>Estado
+      <select name="status">
+        {% for item in ['Abierto', 'Asignado', 'En proceso', 'Cerrado'] %}<option value="{{ item }}" {% if ticket.status == item %}selected{% endif %}>{{ item }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Asignado a
+      <select name="assigned_to_id">
+        <option value="0">Sin asignar</option>
+        {% for item in users %}<option value="{{ item.id }}" {% if ticket.assigned_to_id == item.id %}selected{% endif %}>{{ item.full_name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="full">Resolución <textarea name="resolution" rows="4">{{ ticket.resolution }}</textarea></label>
+    <div class="full actions"><button type="submit">Guardar actualización</button></div>
+  </form>
+</section>
+{% endif %}
+<section class="card">
+  <h2>Mantenimientos asociados</h2>
+  <table><thead><tr><th>Fecha</th><th>Tipo</th><th>Responsable</th><th>Resultado</th></tr></thead><tbody>{% for m in maintenance %}<tr><td>{{ m.maintenance_date }}</td><td>{{ m.maintenance_type }}</td><td>{{ m.performed_by }}</td><td>{{ m.result }}</td></tr>{% endfor %}</tbody></table>
+</section>
+{% endblock %}

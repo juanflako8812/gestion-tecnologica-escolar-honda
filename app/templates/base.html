@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Gestión tecnológica escolar{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <strong>Gestión tecnológica escolar</strong>
+      <span class="subtitle">Prototipo funcional TRL5</span>
+    </div>
+    {% if user %}
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/activos">Activos</a>
+      <a href="/tickets">Tickets</a>
+      <a href="/mantenimientos">Mantenimiento</a>
+      <a href="/reportes">Reportes</a>
+      <a href="/logout">Salir</a>
+    </nav>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% if user %}
+    <section class="userbar">
+      Usuario: <strong>{{ user.full_name }}</strong> · Rol: <strong>{{ role_label(user.role) }}</strong>
+    </section>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Prototipo académico para validación simulada de inventario, soporte y mantenimiento.</footer>
+</body>
+</html>

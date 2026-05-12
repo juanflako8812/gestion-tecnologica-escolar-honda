@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Tickets{% endblock %}
+{% block content %}
+<section class="header-row">
+  <h1>Mesa de ayuda</h1>
+  <a class="button" href="/tickets/nuevo">Nuevo ticket</a>
+</section>
+<form class="filters" method="get" action="/tickets">
+  <select name="status">
+    <option value="">Todos los estados</option>
+    {% for item in ['Abierto', 'Asignado', 'En proceso', 'Cerrado'] %}
+      <option value="{{ item }}" {% if status == item %}selected{% endif %}>{{ item }}</option>
+    {% endfor %}
+  </select>
+  <select name="priority">
+    <option value="">Todas las prioridades</option>
+    {% for item in ['Baja', 'Media', 'Alta', 'Crítica'] %}
+      <option value="{{ item }}" {% if priority == item %}selected{% endif %}>{{ item }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Filtrar</button>
+</form>
+<section class="card">
+  <table>
+    <thead><tr><th>ID</th><th>Título</th><th>Activo</th><th>Solicitante</th><th>Asignado</th><th>Prioridad</th><th>Estado</th><th>Fecha</th></tr></thead>
+    <tbody>
+    {% for ticket in tickets %}
+      <tr>
+        <td><a href="/tickets/{{ ticket.id }}">#{{ ticket.id }}</a></td><td>{{ ticket.title }}</td><td>{{ ticket.asset_code or 'Sin activo' }}</td><td>{{ ticket.requester_name }}</td><td>{{ ticket.assigned_name or 'Sin asignar' }}</td><td>{{ ticket.priority }}</td><td><span class="badge">{{ ticket.status }}</span></td><td>{{ ticket.created_at }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

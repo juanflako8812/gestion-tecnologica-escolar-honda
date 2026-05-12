@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Nuevo mantenimiento{% endblock %}
+{% block content %}
+<h1>Nuevo mantenimiento</h1>
+<form class="card form-grid" method="post" action="/mantenimientos/nuevo">
+  <label>Activo
+    <select name="asset_id" required>
+      {% for asset in assets %}<option value="{{ asset.id }}">{{ asset.code }} · {{ asset.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Ticket asociado
+    <select name="ticket_id">
+      <option value="0">Sin ticket asociado</option>
+      {% for ticket in tickets %}<option value="{{ ticket.id }}" {% if ticket_id == ticket.id %}selected{% endif %}>#{{ ticket.id }} · {{ ticket.title }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Tipo
+    <select name="maintenance_type" required>
+      <option value="Preventivo">Preventivo</option>
+      <option value="Correctivo">Correctivo</option>
+    </select>
+  </label>
+  <label>Fecha <input type="date" name="maintenance_date" required></label>
+  <label>Realizado por <input name="performed_by" required></label>
+  <label>Costo <input type="number" min="0" step="0.01" name="cost" value="0"></label>
+  <label class="full">Descripción <textarea name="description" rows="4" required></textarea></label>
+  <label class="full">Resultado <textarea name="result" rows="4" required></textarea></label>
+  <div class="full actions"><button type="submit">Registrar mantenimiento</button><a class="button-secondary" href="/mantenimientos">Cancelar</a></div>
+</form>
+{% endblock %}

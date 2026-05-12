@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Nuevo ticket{% endblock %}
+{% block content %}
+<h1>Nuevo ticket</h1>
+<form class="card form-grid" method="post" action="{{ action }}">
+  <label class="full">Título <input name="title" required></label>
+  <label>Prioridad
+    <select name="priority" required>
+      {% for item in ['Baja', 'Media', 'Alta', 'Crítica'] %}<option value="{{ item }}">{{ item }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Activo asociado
+    <select name="asset_id">
+      <option value="0">Sin activo asociado</option>
+      {% for asset in assets %}<option value="{{ asset.id }}">{{ asset.code }} · {{ asset.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label class="full">Descripción <textarea name="description" rows="6" required></textarea></label>
+  <div class="full actions"><button type="submit">Crear ticket</button><a class="button-secondary" href="/tickets">Cancelar</a></div>
+</form>
+{% endblock %}

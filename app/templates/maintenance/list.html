@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Mantenimientos{% endblock %}
+{% block content %}
+<section class="header-row">
+  <h1>Seguimiento de mantenimiento</h1>
+  {% if can_manage %}<a class="button" href="/mantenimientos/nuevo">Nuevo mantenimiento</a>{% endif %}
+</section>
+<section class="card">
+  <table>
+    <thead><tr><th>Fecha</th><th>Activo</th><th>Tipo</th><th>Responsable</th><th>Resultado</th><th>Costo</th></tr></thead>
+    <tbody>{% for row in rows %}<tr><td>{{ row.maintenance_date }}</td><td>{{ row.asset_code }} · {{ row.asset_name }}</td><td>{{ row.maintenance_type }}</td><td>{{ row.performed_by }}</td><td>{{ row.result }}</td><td>{{ row.cost }}</td></tr>{% endfor %}</tbody>
+  </table>
+</section>
+{% endblock %}

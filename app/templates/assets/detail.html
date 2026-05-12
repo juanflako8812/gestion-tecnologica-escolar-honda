@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Detalle de activo{% endblock %}
+{% block content %}
+<section class="header-row">
+  <h1>{{ asset.code }} · {{ asset.name }}</h1>
+  {% if can_manage %}<a class="button" href="/activos/{{ asset.id }}/editar">Editar activo</a>{% endif %}
+</section>
+<section class="card detail-grid">
+  <div><strong>Categoría:</strong> {{ asset.category }}</div>
+  <div><strong>Marca:</strong> {{ asset.brand }}</div>
+  <div><strong>Modelo:</strong> {{ asset.model }}</div>
+  <div><strong>Serial:</strong> {{ asset.serial }}</div>
+  <div><strong>Ubicación:</strong> {{ asset.location }}</div>
+  <div><strong>Estado:</strong> {{ asset.status }}</div>
+  <div><strong>Responsable:</strong> {{ asset.responsible }}</div>
+  <div><strong>Actualizado:</strong> {{ asset.updated_at }}</div>
+  <div class="full"><strong>Notas:</strong> {{ asset.notes }}</div>
+</section>
+<section class="grid-two">
+  <article class="card">
+    <h2>Tickets asociados</h2>
+    <table><thead><tr><th>ID</th><th>Título</th><th>Estado</th></tr></thead><tbody>{% for t in tickets %}<tr><td><a href="/tickets/{{ t.id }}">#{{ t.id }}</a></td><td>{{ t.title }}</td><td>{{ t.status }}</td></tr>{% endfor %}</tbody></table>
+  </article>
+  <article class="card">
+    <h2>Mantenimientos</h2>
+    <table><thead><tr><th>Fecha</th><th>Tipo</th><th>Resultado</th></tr></thead><tbody>{% for m in maintenance %}<tr><td>{{ m.maintenance_date }}</td><td>{{ m.maintenance_type }}</td><td>{{ m.result }}</td></tr>{% endfor %}</tbody></table>
+  </article>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Activo{% endblock %}
+{% block content %}
+<h1>{% if asset %}Editar activo{% else %}Nuevo activo{% endif %}</h1>
+<form class="card form-grid" method="post" action="{{ action }}">
+  <label>Código <input name="code" required value="{{ asset.code if asset else '' }}"></label>
+  <label>Nombre <input name="name" required value="{{ asset.name if asset else '' }}"></label>
+  <label>Categoría <input name="category" required value="{{ asset.category if asset else '' }}"></label>
+  <label>Marca <input name="brand" value="{{ asset.brand if asset else '' }}"></label>
+  <label>Modelo <input name="model" value="{{ asset.model if asset else '' }}"></label>
+  <label>Serial <input name="serial" value="{{ asset.serial if asset else '' }}"></label>
+  <label>Ubicación <input name="location" required value="{{ asset.location if asset else '' }}"></label>
+  <label>Estado
+    <select name="status" required>
+      {% for item in ['Disponible', 'Asignado', 'En mantenimiento', 'Retirado'] %}
+        <option value="{{ item }}" {% if asset and asset.status == item %}selected{% endif %}>{{ item }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Responsable <input name="responsible" value="{{ asset.responsible if asset else '' }}"></label>
+  <label class="full">Notas <textarea name="notes" rows="4">{{ asset.notes if asset else '' }}</textarea></label>
+  <div class="full actions"><button type="submit">Guardar</button><a class="button-secondary" href="/activos">Cancelar</a></div>
+</form>
+{% endblock %}

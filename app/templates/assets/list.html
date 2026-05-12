@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Activos{% endblock %}
+{% block content %}
+<section class="header-row">
+  <h1>Inventario de activos</h1>
+  {% if can_manage %}<a class="button" href="/activos/nuevo">Nuevo activo</a>{% endif %}
+</section>
+<form class="filters" method="get" action="/activos">
+  <input name="q" value="{{ q }}" placeholder="Buscar por código, nombre, ubicación o responsable">
+  <select name="status">
+    <option value="">Todos los estados</option>
+    {% for item in ['Disponible', 'Asignado', 'En mantenimiento', 'Retirado'] %}
+      <option value="{{ item }}" {% if status == item %}selected{% endif %}>{{ item }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Filtrar</button>
+</form>
+<section class="card">
+  <table>
+    <thead><tr><th>Código</th><th>Nombre</th><th>Categoría</th><th>Ubicación</th><th>Estado</th><th>Responsable</th><th>Acción</th></tr></thead>
+    <tbody>
+    {% for asset in assets %}
+      <tr>
+        <td>{{ asset.code }}</td><td>{{ asset.name }}</td><td>{{ asset.category }}</td><td>{{ asset.location }}</td><td><span class="badge">{{ asset.status }}</span></td><td>{{ asset.responsible }}</td>
+        <td><a href="/activos/{{ asset.id }}">Ver</a>{% if can_manage %} · <a href="/activos/{{ asset.id }}/editar">Editar</a>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
